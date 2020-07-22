@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "XdKvGgU0L39eTZnzK5OZUaDd7uTjE3kL0PD9NYhMNCWtOIgXH4wkdeOlzMCxvQP6dXDtlCKiFOO8iPMca1KiHA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jpasol\\source\\repos\\KrakenChallengeAPI\\KrakenChallengeAPI\\KrakenChallengeAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jpasol\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\jpasol\\.nuget\\packages\\restsharp\\106.11.4\\restsharp.106.11.4.nupkg.sha512"
+  ],
+  "logs": []
+}

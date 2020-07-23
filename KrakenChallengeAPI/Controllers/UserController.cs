@@ -26,8 +26,8 @@ namespace KrakenChallengeAPI.Controllers
             this.configuration = configuration;
         }
 
-        [HttpGet("Login")]
-        public async Task<ActionResult<Response>> Get([FromBody] User model)
+        [HttpPost("Login")]
+        public async Task<ActionResult<object>> Login([FromBody] User model)
         {
             var KrakenAPI = configuration.GetValue<string>("KrakenAPI:Authentication");
 
@@ -39,20 +39,33 @@ namespace KrakenChallengeAPI.Controllers
                     RequestUri = new Uri(KrakenAPI),
                     Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"),
                 };
+             
+                    var response = await client.SendAsync(request).ConfigureAwait(false);
+                switch (response.StatusCode) {
+                    case System.Net.HttpStatusCode.OK:
+                        {
+                            var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
+                            return JsonConvert.DeserializeObject<Response>(responseBody);
+                        }
 
-                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    default:
+                        {
+                            return StatusCode((int)response.StatusCode, response.Content);
+                        }
 
-                return JsonConvert.DeserializeObject<Response>(responseBody);
+                }
+
+                    
+
+
             }
 
 
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<object>> Put([FromBody] User model)
+        public async Task<ActionResult<object>> Register([FromBody] User model)
         {
             var KrakenAPI = configuration.GetValue<string>("KrakenAPI:Authentication");
 
@@ -61,7 +74,7 @@ namespace KrakenChallengeAPI.Controllers
                 using(var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"))
                 {
                     var response = await client.PostAsync(KrakenAPI, content);
-                    return response;
+                    return StatusCode((int)response.StatusCode, response.Content);
                 }
             }
 
